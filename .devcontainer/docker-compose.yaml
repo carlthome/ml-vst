@@ -1,0 +1,17 @@
+version: "3"
+services:
+  shell:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        - IMAGE=docker.io/library/ubuntu
+        - TAG=22.04
+        - USER=developer
+        - UID=1000
+        - GID=1000
+    user: developer
+    entrypoint: sleep infinity
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
