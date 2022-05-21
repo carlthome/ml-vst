@@ -1,0 +1,10 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/JUCE",
+    "cmake.configureArgs": [
+        "-DJUCE_BUILD_EXAMPLES=ON",
+        "-DJUCE_BUILD_EXTRAS=ON"
+    ],
+    "cmake.buildArgs": [
+        "--target=DemoRunner"
+    ],
+}
