@@ -1,0 +1,6 @@
+[submodule "repos/JUCE"]
+	path = repos/JUCE
+	url = https://github.com/juce-framework/JUCE.git
+[submodule "repos/tensorflow"]
+	path = repos/tensorflow
+	url = https://github.com/tensorflow/tensorflow.git
