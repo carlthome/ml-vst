@@ -6,7 +6,7 @@ services:
       context: .
       args:
         - IMAGE=docker.io/library/ubuntu
-        - TAG=22.04
+        - TAG=20.04
         - USER=developer
         - UID=1000
         - GID=1000

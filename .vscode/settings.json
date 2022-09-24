@@ -1,10 +1,15 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/JUCE",
+    "cmake.sourceDirectory": "${workspaceFolder}",
     "cmake.configureArgs": [
         "-DJUCE_BUILD_EXAMPLES=ON",
         "-DJUCE_BUILD_EXTRAS=ON"
     ],
     "cmake.buildArgs": [
-        "--target=DemoRunner"
+        "--target",
+        "AudioAppDemo"
     ],
+    "files.associations": {
+        "*.yaml": "yaml",
+        "*.mm": "cpp"
+    },
 }
