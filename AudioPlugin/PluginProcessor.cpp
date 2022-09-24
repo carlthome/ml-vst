@@ -133,7 +133,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         phase = originalPhase;
-        auto *channelData = buffer.getWritePointer(0);
+        auto *channelData = buffer.getWritePointer(channel);
         for (auto i = 0; i < buffer.getNumSamples(); ++i)
         {
             channelData[i] = 1.0 * std::sin(phase);
