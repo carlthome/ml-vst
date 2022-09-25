@@ -6,7 +6,7 @@
     ],
     "cmake.buildArgs": [
         "--target",
-        "AudioAppDemo"
+        "AudioPlugin_Derp"
     ],
     "files.associations": {
         "*.yaml": "yaml",
