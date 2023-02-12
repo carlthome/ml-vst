@@ -1,12 +1,12 @@
 {
-	"dockerComposeFile": [
-		"docker-compose.yaml"
-	],
-	"service": "shell",
-	"workspaceFolder": "/workspace",
-	"settings": {},
-	"extensions": [
-		"ms-vscode.cmake-tools",
-		"ms-vscode.cpptools"
-	]
+  "dockerComposeFile": [
+    "docker-compose.yaml"
+  ],
+  "service": "shell",
+  "workspaceFolder": "/workspace",
+  "settings": {},
+  "extensions": [
+    "ms-vscode.cmake-tools",
+    "ms-vscode.cpptools"
+  ]
 }

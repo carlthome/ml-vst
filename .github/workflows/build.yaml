@@ -1,0 +1,3 @@
+cmake --build Builds --config Release
+
+https://github.com/sudara/pamplejuce/blob/main/.github/workflows/cmake_ctest.yml

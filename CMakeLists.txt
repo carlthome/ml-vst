@@ -1,35 +1,52 @@
 cmake_minimum_required(VERSION 3.16)
-project(AudioPlugin VERSION 1.0.0)
+project(AudioPlugins VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_OSX_ARCHITECTURES "x86_64")
+set(TFLITE_C_BUILD_SHARED_LIBS OFF)
+set(TFLITE_ENABLE_MMAP OFF)
+set(TFLITE_ENABLE_EXTERNAL_DELEGATE OFF)
 
-add_subdirectory(
-    repos/tensorflow/tensorflow/lite
-    "${CMAKE_CURRENT_BINARY_DIR}/tensorflow-lite"
-    EXCLUDE_FROM_ALL
+add_subdirectory("repos/JUCE")
+add_subdirectory("repos/tensorflow/tensorflow/lite" "${CMAKE_CURRENT_BINARY_DIR}/tensorflow-lite" EXCLUDE_FROM_ALL)
+
+# TODO
+# juce_set_vst2_sdk_path(...)
+# juce_set_aax_sdk_path(...)
+ 
+juce_add_plugin(AudioPlugin
+    ICON_BIG "src/Assets/icon.png"
+    ICON_SMALL "src/Assets/icon.png"
+    COMPANY_NAME ${PROJECT_NAME}
+    IS_SYNTH TRUE
+    NEEDS_MIDI_INPUT TRUE
+    NEEDS_MIDI_OUTPUT TRUE
+    IS_MIDI_EFFECT TRUE
+    EDITOR_WANTS_KEYBOARD_FOCUS TRUE
+    COPY_PLUGIN_AFTER_BUILD FALSE
+    PLUGIN_MANUFACTURER_CODE Carl
+    PLUGIN_CODE Dem0
+    FORMATS Standalone
+    PRODUCT_NAME "The Audio Plugin"
 )
-add_subdirectory(repos/JUCE)
-
-juce_add_gui_app(AudioPlugin_Derp PRODUCT_NAME "AudioPlugin")
-
-target_compile_definitions(AudioPlugin_Derp
+target_compile_features(AudioPlugin
     PRIVATE
-    JUCE_USE_CURL=0
+    cxx_std_20
+)
+
+target_compile_definitions(AudioPlugin
+    PUBLIC
     JUCE_WEB_BROWSER=0
-    JUCE_BUILD_EXAMPLES=OFF
-    JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:GuiAppExample,JUCE_PRODUCT_NAME>"
-    JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:GuiAppExample,JUCE_VERSION>")
+    JUCE_USE_CURL=0)
 
-target_sources(AudioPlugin_Derp
-    PRIVATE
-    AudioPlugin/Main.cpp
-    AudioPlugin/MainComponent.cpp)
+file(GLOB SRC_FILES "src/AudioPlugin/*")
+target_sources(AudioPlugin PRIVATE ${SRC_FILES})
 
-target_include_directories(AudioPlugin_Derp
-    PRIVATE
-    ${GTK3_INCLUDEDIR})
+file(GLOB MODEL_FILES "src/Assets/models/*")
+juce_add_binary_data(Models SOURCES ${MODEL_FILES})
+set_target_properties(Models PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
-target_link_libraries(AudioPlugin_Derp
+target_link_libraries(AudioPlugin
     PRIVATE
     juce::juce_audio_basics
     juce::juce_audio_devices
@@ -40,8 +57,13 @@ target_link_libraries(AudioPlugin_Derp
     juce::juce_data_structures
     juce::juce_gui_extra
     tensorflow-lite
-
+    Models
     PUBLIC
     juce::juce_recommended_config_flags
     juce::juce_recommended_lto_flags
-    juce::juce_recommended_warning_flags)
+    juce::juce_recommended_warning_flags
+)
+
+# TODO Enable tests.
+#add_executable(Tests ${TestFiles})
+#target_compile_features(Tests PRIVATE cxx_std_20)
