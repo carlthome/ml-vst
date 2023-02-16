@@ -13,6 +13,7 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
       ) {
+  this->model = std::make_unique<TfLiteModel>("yamnet_tflite");
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
@@ -109,8 +110,6 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
                                              juce::MidiBuffer &midiMessages) {
   juce::ignoreUnused(midiMessages);
 
-  run_tflite();
-
   juce::ScopedNoDenormals noDenormals;
   auto totalNumInputChannels = getTotalNumInputChannels();
   auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -130,11 +129,13 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   // the samples and the outer loop is handling the channels.
   // Alternatively, you can process the samples with the channels
   // interleaved by keeping the same state.
-  for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-    auto *channelData = buffer.getWritePointer(channel);
-    juce::ignoreUnused(channelData);
-    // ..do something to the data...
-  }
+
+  const auto &sampleRate = this->getSampleRate();
+  const auto &numSamples = buffer.getNumSamples();
+  const auto &input = buffer.getWritePointer(0);
+  const auto &output = buffer.getWritePointer(1);
+
+  this->model->run(input, output, numSamples);
 }
 
 bool AudioPluginAudioProcessor::hasEditor() const {
