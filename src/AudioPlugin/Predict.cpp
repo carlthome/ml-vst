@@ -3,7 +3,7 @@
 #include "tensorflow/lite/model.h"
 #include "tensorflow/lite/optional_debug_tools.h"
 
-#include "BinaryData.h"
+#include "Models.h"
 
 #define TFLITE_MINIMAL_CHECK(x)                                                \
   if (!(x)) {                                                                  \
