@@ -4,6 +4,10 @@
 
 ## Build
 
+First, install [CMake](https://cmake.org/install/) and a generator (like [Ninja](https://github.com/ninja-build/ninja)).
+
+Then generate a project and build it.
+
 ```sh
 # Generate a build project (with e.g. Ninja).
 mkdir build && cd build
