@@ -5,10 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(TFLITE_C_BUILD_SHARED_LIBS OFF)
 set(TFLITE_ENABLE_MMAP OFF)
 set(TFLITE_ENABLE_EXTERNAL_DELEGATE OFF)
+set(ABSL_PROPAGATE_CXX_STD on)
 
 add_subdirectory("repos/JUCE")
 add_subdirectory("repos/tensorflow/tensorflow/lite" "${CMAKE_CURRENT_BINARY_DIR}/tensorflow-lite" EXCLUDE_FROM_ALL)
- 
+
 juce_add_plugin(AudioPlugin
     PRODUCT_NAME "The Audio Plugin"
     DESCRIPTION
@@ -40,7 +41,7 @@ file(GLOB SRC_FILES "src/AudioPlugin/*")
 target_sources(AudioPlugin PRIVATE ${SRC_FILES})
 
 file(GLOB MODEL_FILES "src/Assets/models/*")
-juce_add_binary_data(Models 
+juce_add_binary_data(Models
     HEADER_NAME "Models.h"
     SOURCES ${MODEL_FILES})
 set_target_properties(Models PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
