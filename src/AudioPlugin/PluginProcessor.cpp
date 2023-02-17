@@ -135,6 +135,10 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   const auto &input = buffer.getWritePointer(0);
   const auto &output = buffer.getWritePointer(1);
 
+  if (output == nullptr) {
+    return;
+  }
+
   this->model->run(input, output, numSamples);
 }
 
