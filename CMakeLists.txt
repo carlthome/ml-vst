@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(AudioPlugins VERSION 1.0.0)
+project(AudioPlugin VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(TFLITE_C_BUILD_SHARED_LIBS OFF)
@@ -26,6 +26,8 @@ juce_add_plugin(AudioPlugin
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
 )
+
+juce_generate_juce_header(${PROJECT_NAME})
 
 target_compile_features(AudioPlugin
     PRIVATE
@@ -56,6 +58,7 @@ target_link_libraries(AudioPlugin
     juce::juce_core
     juce::juce_data_structures
     juce::juce_gui_extra
+    juce::juce_dsp
     tensorflow-lite
     Models
     PUBLIC
