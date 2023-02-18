@@ -27,7 +27,7 @@ juce_add_plugin(AudioPlugin
     NEEDS_MIDI_OUTPUT FALSE
 )
 
-juce_generate_juce_header(${PROJECT_NAME})
+juce_generate_juce_header(AudioPlugin)
 
 target_compile_features(AudioPlugin
     PRIVATE
