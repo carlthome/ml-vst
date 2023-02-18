@@ -13,7 +13,7 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
       ) {
-  this->model = std::make_unique<TfLiteModel>("yamnet_tflite");
+  this->model = std::make_unique<TfLiteModel>("model_tflite");
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
