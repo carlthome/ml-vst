@@ -135,6 +135,15 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   const auto &input = buffer.getWritePointer(0);
   const auto &output = buffer.getWritePointer(1);
 
+  // Send input buffer to editor
+  if (this->editor != nullptr) {
+    this->editor->processAudioBlock(buffer);
+  }
+
+  if (output == nullptr) {
+    return;
+  }
+
   this->model->run(input, output, numSamples);
 }
 
@@ -143,7 +152,8 @@ bool AudioPluginAudioProcessor::hasEditor() const {
 }
 
 juce::AudioProcessorEditor *AudioPluginAudioProcessor::createEditor() {
-  return new AudioPluginAudioProcessorEditor(*this);
+  this->editor = new AudioPluginAudioProcessorEditor(*this);
+  return static_cast<juce::AudioProcessorEditor *>(this->editor);
 }
 
 void AudioPluginAudioProcessor::getStateInformation(

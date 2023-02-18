@@ -6,6 +6,12 @@
 
 First, install [CMake](https://cmake.org/install/) and a generator (like [Ninja](https://github.com/ninja-build/ninja)).
 
+Clone the project with submodules:
+
+```sh
+git clone --recurse-submodules https://github.com/carlthome/ml-vst
+```
+
 Then generate a project and build it.
 
 ```sh
