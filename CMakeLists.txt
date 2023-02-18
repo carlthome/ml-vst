@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.16)
-project(AudioPlugin VERSION 1.0.0)
+project(AudioPlugins VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(TFLITE_C_BUILD_SHARED_LIBS OFF)
 set(TFLITE_ENABLE_MMAP OFF)
 set(TFLITE_ENABLE_EXTERNAL_DELEGATE OFF)
-set(ABSL_PROPAGATE_CXX_STD on)
+set(ABSL_PROPAGATE_CXX_STD ON)
 
-add_subdirectory("repos/JUCE")
+add_subdirectory("repos/JUCE" "${CMAKE_CURRENT_BINARY_DIR}/JUCE" EXCLUDE_FROM_ALL)
 add_subdirectory("repos/tensorflow/tensorflow/lite" "${CMAKE_CURRENT_BINARY_DIR}/tensorflow-lite" EXCLUDE_FROM_ALL)
 
 juce_add_plugin(AudioPlugin
     PRODUCT_NAME "The Audio Plugin"
-    DESCRIPTION
-    PLUGIN_CODE Dem0
-    COMPANY_NAME ${PROJECT_NAME}
-    FORMATS Standalone AU
+    DESCRIPTION "A plugin that does audio things."
+    PLUGIN_CODE "Dem0"
     PLUGIN_MANUFACTURER_CODE Carl
+    COMPANY_NAME ${PROJECT_NAME}
+    FORMATS Standalone AU VST3
     COPY_PLUGIN_AFTER_BUILD TRUE
     EDITOR_WANTS_KEYBOARD_FOCUS TRUE
     ICON_BIG "src/Assets/icon.png"
@@ -36,17 +36,25 @@ target_compile_features(AudioPlugin
 
 target_compile_definitions(AudioPlugin
     PUBLIC
+    JUCE_VST3_CAN_REPLACE_VST2=0
     JUCE_WEB_BROWSER=0
-    JUCE_USE_CURL=0)
+    JUCE_USE_CURL=0
+)
 
 file(GLOB SRC_FILES "src/AudioPlugin/*")
-target_sources(AudioPlugin PRIVATE ${SRC_FILES})
+target_sources(AudioPlugin 
+    PRIVATE ${SRC_FILES}
+)
 
 file(GLOB MODEL_FILES "src/Assets/models/*")
 juce_add_binary_data(Models
     HEADER_NAME "Models.h"
-    SOURCES ${MODEL_FILES})
-set_target_properties(Models PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+    SOURCES ${MODEL_FILES}
+)
+
+set_target_properties(Models 
+    PROPERTIES POSITION_INDEPENDENT_CODE TRUE
+)
 
 target_link_libraries(AudioPlugin
     PRIVATE
