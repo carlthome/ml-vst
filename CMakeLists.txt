@@ -42,7 +42,7 @@ target_compile_definitions(AudioPlugin
 )
 
 file(GLOB SRC_FILES "src/AudioPlugin/*")
-target_sources(AudioPlugin 
+target_sources(AudioPlugin
     PRIVATE ${SRC_FILES}
 )
 
@@ -52,7 +52,7 @@ juce_add_binary_data(Models
     SOURCES ${MODEL_FILES}
 )
 
-set_target_properties(Models 
+set_target_properties(Models
     PROPERTIES POSITION_INDEPENDENT_CODE TRUE
 )
 
